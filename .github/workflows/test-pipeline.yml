@@ -1,0 +1,33 @@
+name: Java CI with JUnit
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Download JUnit Standalone
+        run: wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.10.2/junit-platform-console-standalone-1.10.2.jar
+
+      - name: Compile Project
+        run: |
+          mkdir -p bin
+          javac -cp junit-platform-console-standalone-1.10.2.jar src/SHA256Ex.java src/SHA256ExTests.java -d bin
+
+      - name: Run Tests
+        run: |
+          java -jar junit-platform-console-standalone-1.10.2.jar --class-path bin --scan-classpath
