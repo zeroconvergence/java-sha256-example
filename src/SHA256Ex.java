@@ -9,7 +9,7 @@ public class SHA256Ex {
         StringBuilder stringBuilder = new StringBuilder();
 
         for(byte b : hash)
-            stringBuilder.append(String.format("%01x", b));
+            stringBuilder.append(String.format("%02x", b));
         return stringBuilder.toString();
     }
 
